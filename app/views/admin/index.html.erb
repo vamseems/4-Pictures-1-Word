@@ -1,0 +1,57 @@
+<center><h1>Admin Panel</h1></center>
+
+<h2>Users</h2>
+
+<div style="padding: 5px 10px 0px 10px;margin-left: 5%; margin-top: 3%;margin-right: 5%;background: white;box-shadow:0px 10px 20px 3px #d3d3d3;padding-bottom:50px;">
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:5em">S.no</th>
+      <th>Email</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+      	<td style="padding-right:5em"><%= user.id %> </td>
+        <td><%= user.email %></td>
+        <td><%= link_to 'Show', edit_user_registration_path(user) %></td>
+        <td><%= link_to 'Edit/Delete', edit_user_registration_path(user) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<br>
+</div>
+<br>
+<h2>Pictures</h2>
+
+<div style="padding: 5px 10px 0px 10px;margin-left: 5%; margin-top: 3%;margin-right: 5%;background: white;box-shadow:0px 10px 20px 3px #d3d3d3;padding-bottom:50px;">
+<span style="right:0;"><%= link_to "Add Pictures" , new_picture_path %></span>
+<table>
+  <thead>
+    <tr>
+      <th style="padding-right:5em">S.no</th>
+      <th style="padding-right:5em">Tag</th>
+      <th>Pic</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pics.each do |pic| %>
+      <tr>
+      	<td style="padding-right:5em"><%= pic.id %></td>
+      	<th style="padding-right:5em"><%= pic.tag %></th>
+		<td><%= image_tag('/admin/serve/' + pic.id.to_s, :class => 'images_admin') %></td>
+		<td><%= link_to 'Delete', picture_path(pic), method: :delete, data: {confirm: 'Are you sure?'}, :class=> 'destroy' %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
+<br>
+</div>
+<br>
+<hr>
+<br>

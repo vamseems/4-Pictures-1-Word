@@ -1,0 +1,82 @@
+<br>
+<div id="result">
+	<center>
+		<h3 style="color: green;"><%= @attempts %> Attempts Remaining</h3>
+	</center>
+</div>
+<center>
+	<h4 id="score"></h4>
+	<div id="next_btn" class="hidden" onclick="window.location='http://localhost:3000/play'">Next Question</div>
+</center>
+<div style="padding: 5px 10px 0px 10px;margin-left: 30%; margin-top: 3%;margin-right: 30%;background: white;box-shadow:0px 10px 20px 3px #d3d3d3;padding-bottom:20px;padding-top:20px;">
+	<center>
+		<% @count = 0 %>
+		<% @selected.each do |i| %>
+			<% @count = @count + 1 %>
+			<%= image_tag('/admin/serve/' + i.id.to_s, :class => 'images_play') %>
+			<% if @count == 2 %>
+				<br>
+			<%end%>
+		<%end%>
+	</center>
+</div>
+
+<div style="padding: 5px 10px 0px 10px;margin-left: 38%; margin-top: 3%;margin-right: 38%;background: white;box-shadow:0px 10px 20px 3px #d3d3d3;padding-bottom:20px;padding-top:20px;">
+	<center>
+		<input type="text" id="answer" name="answer" placeholder="Make your guess..." />
+	</center>
+</div>
+<br><br>
+<center>
+	<div id="submit" onclick="check();">Submit</div>
+</center>
+<div id="quit" onclick="deleteCookie()"><center>Quit</center></div>
+
+
+<script type="text/javascript">
+	function getCookie(cname) {
+   			 var name = cname + "=";
+    		 var ca = document.cookie.split(';');
+			    for(var i=0; i<ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') c = c.substring(1);
+			        if (c.indexOf(name) != -1) return c.substring(name.length, c.length);
+			    }
+			    return "";
+		}
+	function deleteCookie () {
+		document.cookie = "score=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+		//window.location="";
+	}
+	var attempts = 3;
+	var score = 0;
+	if (getCookie("score") == "")
+		document.cookie="score=" + score;
+	else
+		score = parseInt(getCookie("score"));
+	function check () {
+		var ans = document.getElementById('answer').value.toLowerCase().trim();
+		if (ans == '<%= @tag.tag %>') {
+			document.getElementById('result').innerHTML = "<center><h3 style='color: green'>Correct Answer!!</h3></center>";
+			document.getElementById('next_btn').className = 'next';
+			score += 3;
+			document.cookie="score=" + score;
+		}
+		else {
+			attempts = attempts - 1;
+			if (attempts == 3){
+				document.getElementById('result').innerHTML = "<center><h3 style='color: green;'><%= @attempts %> Attempts Remaining</h3></center>"
+			};
+			if (attempts == 2){
+				document.getElementById('result').innerHTML = "<center><h3 style='color: orange;'>2 Attempts Remaining</h3></center>"
+			};
+			if (attempts == 1){
+				document.getElementById('result').innerHTML = "<center><h3 style='color: red;'>1 Attempt Remaining</h3></center>"
+			};
+			score -= 1;
+			document.cookie="score=" + score;
+			console.log(attempts)
+		};
+	document.getElementById('score').innerHTML = "Score: " + getCookie("score");
+	}
+</script>

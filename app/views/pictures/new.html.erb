@@ -1,0 +1,14 @@
+  <%= form_for :pictures, :html => {:multipart => true}, url: pictures_path do |f| %>
+		<p> 
+			<strong><%= f.label :tag %>:</strong><br>
+			<%= f.text_field :tag %>
+		</p>
+
+		<p>
+			<%= f.file_field :data%><br>
+			<span>Max 65 KB formats(jpg)</span>
+		</p>
+		<p>
+			<%= f.submit 'Add' %>
+		</p>
+	<% end %>
